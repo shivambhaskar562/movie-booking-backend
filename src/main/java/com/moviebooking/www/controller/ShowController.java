@@ -26,7 +26,7 @@ public class ShowController {
 	ShowService showService;
 
 	@GetMapping
-	public ResponseEntity<List<Movie>> getAllShow() {
+	public ResponseEntity<List<Show>> getAllShow() {
 		return ResponseEntity.ok(showService.getAllShow());
 	}
 
@@ -56,14 +56,14 @@ public class ShowController {
 
 	@DeleteMapping("/{id}")
 //	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<?> deleteShow(@PathVariable long id) {
+	public ResponseEntity<Show> deleteShow(@PathVariable long id) {
 		showService.deleteShow(id);
 		return ResponseEntity.ok().build();
 	}
 
 	@DeleteMapping
 //	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<?> deleteAllShow() {
+	public ResponseEntity<List<Show>> deleteAllShow() {
 		showService.deleteAllShow();
 		return ResponseEntity.ok().build();
 	}

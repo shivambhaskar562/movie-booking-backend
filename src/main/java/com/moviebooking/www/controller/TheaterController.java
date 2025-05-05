@@ -1,5 +1,6 @@
 package com.moviebooking.www.controller;
 
+import com.moviebooking.www.entity.Theater;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.moviebooking.www.dto.TheaterDTO;
 import com.moviebooking.www.service.TheaterService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/theater")
 public class TheaterController {
@@ -28,7 +31,7 @@ public class TheaterController {
 	}
 
 	@GetMapping("/bylocation")
-	public ResponseEntity<?> getTheaterByLocation(@RequestParam String location) {
+	public ResponseEntity<List<Theater>> getTheaterByLocation(@RequestParam String location) {
 		return ResponseEntity.ok(theaterService.findTheaterByLocation(location));
 	}
 
@@ -36,19 +39,19 @@ public class TheaterController {
 	// ------------------------------------------------------------------------------------------
 	@PostMapping
 //	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<?> addTheater(@RequestBody TheaterDTO theaterDTO) {
+	public ResponseEntity<Theater> addTheater(@RequestBody TheaterDTO theaterDTO) {
 		return ResponseEntity.ok(theaterService.addTheater(theaterDTO));
 	}
 
 	@PutMapping("/{id}")
 //	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<?> updateTheater(@PathVariable long id, TheaterDTO theaterDTO) {
+	public ResponseEntity<Theater> updateTheater(@PathVariable long id, TheaterDTO theaterDTO) {
 		return ResponseEntity.ok(theaterService.updateTheater(id, theaterDTO));
 	}
 
 	@DeleteMapping("/{id}")
 //	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<?> deleteTheater(long id) {
+	public ResponseEntity<Theater> deleteTheater(long id) {
 		theaterService.deleteTheater(id);
 		return ResponseEntity.ok().build();
 	}
