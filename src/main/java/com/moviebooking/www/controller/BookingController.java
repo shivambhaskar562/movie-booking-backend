@@ -1,0 +1,57 @@
+package com.moviebooking.www.controller;
+
+import com.moviebooking.www.entity.Booking;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.moviebooking.www.dto.BookingDTO;
+import com.moviebooking.www.entity.BookingStatus;
+import com.moviebooking.www.service.BookingService;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/booking")
+public class BookingController {
+
+	@Autowired
+	private BookingService bookingService;
+
+	@PostMapping
+	public ResponseEntity<Booking> createBooking(@RequestBody BookingDTO bookingDTO) {
+		return ResponseEntity.ok(bookingService.createBooking(bookingDTO));
+	}
+
+	@GetMapping("/user/{id}")
+	public ResponseEntity<List<Booking>> getUserBooking(@PathVariable long id) {
+		return ResponseEntity.ok(bookingService.getUserBooking(id));
+	}
+
+	@GetMapping("/show/{id}")
+	public ResponseEntity<List<Booking>> getShowBooking(@PathVariable long id) {
+		return ResponseEntity.ok(bookingService.getShowBooking(id));
+	}
+
+	@PutMapping("/{id}/confirm")
+	public ResponseEntity<Booking> conformBooking(@PathVariable long id) {
+		return ResponseEntity.ok(bookingService.confirmBooking(id));
+	}
+
+	@PutMapping("/{id}/cancel")
+	public ResponseEntity<Booking> cancelBooking(@PathVariable long id) {
+		return ResponseEntity.ok(bookingService.cancelBooking(id));
+	}
+
+	@GetMapping("/{bookingStatus}")
+	public ResponseEntity<List<Booking>> getBookingStatus(@PathVariable BookingStatus bookingStatus) {
+		return ResponseEntity.ok(bookingService.getBookingStatus(bookingStatus));
+	}
+
+}
