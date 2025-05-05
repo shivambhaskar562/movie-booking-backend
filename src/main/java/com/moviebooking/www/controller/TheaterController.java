@@ -26,11 +26,11 @@ public class TheaterController {
 	private TheaterService theaterService;
 
 	@GetMapping
-	public ResponseEntity<?> getAllTheater() {
+	public ResponseEntity<List<Theater>> getAllTheater() {
 		return ResponseEntity.ok(theaterService.findAllTheaters());
 	}
 
-	@GetMapping("/bylocation")
+	@GetMapping("/allocation")
 	public ResponseEntity<List<Theater>> getTheaterByLocation(@RequestParam String location) {
 		return ResponseEntity.ok(theaterService.findTheaterByLocation(location));
 	}
