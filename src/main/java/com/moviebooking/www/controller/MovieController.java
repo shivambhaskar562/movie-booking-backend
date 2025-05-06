@@ -1,9 +1,9 @@
 package com.moviebooking.www.controller;
 
 import com.moviebooking.www.entity.Movie;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,26 +49,22 @@ public class MovieController {
 	// ADMIN APIS
 	// -----------------------------------------------------------------------------------------
 	@PostMapping("/add")
-//	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Movie> addMovie(@RequestBody MovieDTO movieDTO) {
+	public ResponseEntity<Movie> addMovie(@RequestBody @Valid MovieDTO movieDTO) {
 		return ResponseEntity.ok(movieService.addMovie(movieDTO));
 	}
 
 	@PutMapping("/{id}")
-//	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Movie> editMovie(@PathVariable long id, @RequestBody MovieDTO movieDTO) {
+	public ResponseEntity<Movie> editMovie(@PathVariable long id, @RequestBody @Valid MovieDTO movieDTO) {
 		return ResponseEntity.ok(movieService.updateMovie(id, movieDTO));
 	}
 
 	@DeleteMapping("/{id}")
-//	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Movie> deleteMovie(@PathVariable long id) {
 		movieService.deleteMovies(id);
 		return ResponseEntity.ok().build();
 	}
 
 	@DeleteMapping
-//	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<List<Movie>> deleteAllMovie() {
 		movieService.deletAllMovie();
 		return ResponseEntity.ok().build();

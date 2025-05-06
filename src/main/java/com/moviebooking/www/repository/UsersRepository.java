@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.moviebooking.www.entity.Users;
 
 @Repository
-public interface UsersRepositary extends JpaRepository<Users, Long> {
+public interface UsersRepository extends JpaRepository<Users, Long> {
 
 	Optional<Users> findByUsername(String username);
 	Optional<Users> findByEmail(String username);

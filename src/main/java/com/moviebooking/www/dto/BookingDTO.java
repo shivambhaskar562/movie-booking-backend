@@ -4,72 +4,80 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.moviebooking.www.entity.BookingStatus;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class BookingDTO {
 
-	private int noOfSeats;
-	private LocalDateTime bookingTime;
-	private double price;
-	private BookingStatus bookingStatus;
-	private List<String> seatNumbers;
+    private int noOfSeats;
 
-	private long userId;
-	private long showId;
+    @DateTimeFormat
+    private LocalDateTime bookingTime;
 
-	public int getNoOfSeats() {
-		return noOfSeats;
-	}
+    @NotNull
+    private double price;
 
-	public void setNoOfSeats(int noOfSeats) {
-		this.noOfSeats = noOfSeats;
-	}
+    private BookingStatus bookingStatus;
 
-	public LocalDateTime getBookingTime() {
-		return bookingTime;
-	}
+    private List<String> seatNumbers;
 
-	public void setBookingTime(LocalDateTime bookingTime) {
-		this.bookingTime = bookingTime;
-	}
+    private long userId;
+    private long showId;
 
-	public double getPrice() {
-		return price;
-	}
+    public int getNoOfSeats() {
+        return noOfSeats;
+    }
 
-	public void setPrice(double price) {
-		this.price = price;
-	}
+    public void setNoOfSeats(int noOfSeats) {
+        this.noOfSeats = noOfSeats;
+    }
 
-	public BookingStatus getBookingStatus() {
-		return bookingStatus;
-	}
+    public LocalDateTime getBookingTime() {
+        return bookingTime;
+    }
 
-	public void setBookingStatus(BookingStatus bookingStatus) {
-		this.bookingStatus = bookingStatus;
-	}
+    public void setBookingTime(LocalDateTime bookingTime) {
+        this.bookingTime = bookingTime;
+    }
 
-	public List<String> getSeatNumbers() {
-		return seatNumbers;
-	}
+    public double getPrice() {
+        return price;
+    }
 
-	public void setSeatNumbers(List<String> seatNumbers) {
-		this.seatNumbers = seatNumbers;
-	}
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
-	public long getUserId() {
-		return userId;
-	}
+    public BookingStatus getBookingStatus() {
+        return bookingStatus;
+    }
 
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}
+    public void setBookingStatus(BookingStatus bookingStatus) {
+        this.bookingStatus = bookingStatus;
+    }
 
-	public long getShowId() {
-		return showId;
-	}
+    public List<String> getSeatNumbers() {
+        return seatNumbers;
+    }
 
-	public void setShowId(long showId) {
-		this.showId = showId;
-	}
+    public void setSeatNumbers(List<String> seatNumbers) {
+        this.seatNumbers = seatNumbers;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    public long getShowId() {
+        return showId;
+    }
+
+    public void setShowId(long showId) {
+        this.showId = showId;
+    }
 
 }

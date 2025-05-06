@@ -1,9 +1,15 @@
 package com.moviebooking.www.dto;
 
+import jakarta.validation.constraints.NotNull;
+
 public class TheaterDTO {
+	@NotNull
 	private String theaterName;
+	@NotNull
 	private String theaterLocation;
+	@NotNull
 	private String theaterScreenType;
+	@NotNull
 	private int theaterCapacity;
 
 	public String getTheaterName() {

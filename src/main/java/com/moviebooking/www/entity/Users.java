@@ -1,68 +1,76 @@
 package com.moviebooking.www.entity;
 
 import java.util.List;
+import java.util.Set;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "users")
-public class Users {
+public class Users{
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-	private String username;
-	private String email;
-	private String password;
+    private String username;
+    private String email;
+    private String password;
 
-	@OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
-	private List<Booking> bookings;
 
-	public long getId() {
-		return id;
-	}
+    //I am assign the roles of the user
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<String> roles;
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    private List<Booking> bookings;
 
-	public String getUsername() {
-		return username;
-	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public long getId() {
+        return id;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public List<Booking> getBookings() {
-		return bookings;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setBookings(List<Booking> bookings) {
-		this.bookings = bookings;
-	}
+    public String getPassword() {
+        return password;
+    }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
+    }
+
+    public Set<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<String> roles) {
+        this.roles = roles;
+    }
 }

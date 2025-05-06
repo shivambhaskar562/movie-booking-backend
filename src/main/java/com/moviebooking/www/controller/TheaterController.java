@@ -1,6 +1,7 @@
 package com.moviebooking.www.controller;
 
 import com.moviebooking.www.entity.Theater;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,19 +39,16 @@ public class TheaterController {
 	// ADMIN API
 	// ------------------------------------------------------------------------------------------
 	@PostMapping
-//	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Theater> addTheater(@RequestBody TheaterDTO theaterDTO) {
+	public ResponseEntity<Theater> addTheater(@RequestBody @Valid TheaterDTO theaterDTO) {
 		return ResponseEntity.ok(theaterService.addTheater(theaterDTO));
 	}
 
 	@PutMapping("/{id}")
-//	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Theater> updateTheater(@PathVariable long id, TheaterDTO theaterDTO) {
+	public ResponseEntity<Theater> updateTheater(@PathVariable long id, @RequestBody @Valid TheaterDTO theaterDTO) {
 		return ResponseEntity.ok(theaterService.updateTheater(id, theaterDTO));
 	}
 
 	@DeleteMapping("/{id}")
-//	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Theater> deleteTheater(long id) {
 		theaterService.deleteTheater(id);
 		return ResponseEntity.ok().build();

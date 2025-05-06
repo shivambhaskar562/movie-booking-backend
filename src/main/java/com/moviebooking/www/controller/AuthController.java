@@ -2,7 +2,6 @@ package com.moviebooking.www.controller;
 
 import com.moviebooking.www.dto.LoginResponseDTO;
 import com.moviebooking.www.entity.Users;
-import org.apache.juli.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,16 +19,21 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-	@Autowired
-	private AuthService authService;
+    @Autowired
+    private AuthService authService;
 
-	@PostMapping("/register/user")
-	public ResponseEntity<Users> registerUser(@RequestBody @Valid RegisterRequestDTO registerRequestDTO) {
-		return ResponseEntity.ok(authService.registerUser(registerRequestDTO));
-	}
+    @PostMapping("/register/user")
+    public ResponseEntity<Users> registerUser(@RequestBody @Valid RegisterRequestDTO registerRequestDTO) {
+        return ResponseEntity.ok(authService.registerUser(registerRequestDTO));
+    }
 
-	@PostMapping
-	public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO) {
-		return ResponseEntity.ok(authService.login(loginRequestDTO));
-	}
+    @PostMapping("/register/admin")
+    public ResponseEntity<Users> registerAdmin(@RequestBody @Valid RegisterRequestDTO registerRequestDTO) {
+        return ResponseEntity.ok(authService.registerAdmin(registerRequestDTO));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid LoginRequestDTO loginRequestDTO) {
+        return ResponseEntity.ok(authService.login(loginRequestDTO));
+    }
 }

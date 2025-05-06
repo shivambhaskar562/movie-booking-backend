@@ -13,7 +13,7 @@ import com.moviebooking.www.entity.Show;
 import com.moviebooking.www.entity.Users;
 import com.moviebooking.www.repository.BookingRepository;
 import com.moviebooking.www.repository.ShowRepository;
-import com.moviebooking.www.repository.UsersRepositary;
+import com.moviebooking.www.repository.UsersRepository;
 import com.moviebooking.www.service.BookingService;
 
 @Service
@@ -26,7 +26,7 @@ public class BookingServiceImpl implements BookingService {
 	private ShowRepository showRepository;
 
 	@Autowired
-	private UsersRepositary usersRepositary;
+	private UsersRepository usersRepositary;
 
 	@Override
 	public Booking createBooking(BookingDTO bookingDTO) {

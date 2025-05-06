@@ -10,10 +10,10 @@ public class RegisterRequestDTO {
 	@Email
 	private String email;
 	@NotNull
-	@Size(min = 6, max = 18)
+	@Size(min = 6, max = 30)
 	private String username;
 	@NotNull
-	@Size(min = 6, max = 18)
+	@Size(min = 6, max = 30)
 	private String password;
 
 	public String getEmail() {

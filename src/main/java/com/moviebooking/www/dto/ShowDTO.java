@@ -1,9 +1,13 @@
 package com.moviebooking.www.dto;
 
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
 
 public class ShowDTO {
+	@NotNull
 	private LocalDateTime showTime;
+	@NotNull
 	private double price;
 	private long movieId;
 	private long theaterId;

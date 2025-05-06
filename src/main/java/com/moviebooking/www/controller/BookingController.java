@@ -1,6 +1,7 @@
 package com.moviebooking.www.controller;
 
 import com.moviebooking.www.entity.Booking;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +26,7 @@ public class BookingController {
 	private BookingService bookingService;
 
 	@PostMapping
-	public ResponseEntity<Booking> createBooking(@RequestBody BookingDTO bookingDTO) {
+	public ResponseEntity<Booking> createBooking(@RequestBody @Valid BookingDTO bookingDTO) {
 		return ResponseEntity.ok(bookingService.createBooking(bookingDTO));
 	}
 
@@ -50,7 +51,7 @@ public class BookingController {
 	}
 
 	@GetMapping("/{bookingStatus}")
-	public ResponseEntity<List<Booking>> getBookingStatus(@PathVariable BookingStatus bookingStatus) {
+	public ResponseEntity<List<Booking>> getBookingStatus(@PathVariable @Valid BookingStatus bookingStatus) {
 		return ResponseEntity.ok(bookingService.getBookingStatus(bookingStatus));
 	}
 

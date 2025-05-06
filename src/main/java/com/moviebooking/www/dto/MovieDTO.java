@@ -1,12 +1,22 @@
 package com.moviebooking.www.dto;
 
+import jakarta.validation.constraints.NotNull;
+
 public class MovieDTO {
 
+	@NotNull(message = "Movie Title Can not be Null")
 	private String title;
 	private String description;
+
+	@NotNull(message = "Genre Can not be Null")
 	private String genre;
+
+	@NotNull(message = "Please provide language")
 	private String language;
+
+	@NotNull
 	private String duration;
+	@NotNull
 	private String releaseDate;
 
 	public String getTitle() {

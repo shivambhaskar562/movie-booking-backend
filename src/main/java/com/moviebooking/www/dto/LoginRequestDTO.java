@@ -1,24 +1,31 @@
 package com.moviebooking.www.dto;
 
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
+
 public class LoginRequestDTO {
 
-	private String username;
-	private String password;
+    @NotNull(message = "Username can not be null")
+    @Length(min = 6, max = 30)
+    private String username;
 
-	public String getUsername() {
-		return username;
-	}
+    @NotNull(message = "Password can not be null")
+    private String password;
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
 }
