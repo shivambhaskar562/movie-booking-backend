@@ -24,14 +24,19 @@ public class ShowController {
 		return ResponseEntity.ok(showService.getAllShow());
 	}
 
-	@GetMapping("/movie/{movie}")
-	public ResponseEntity<List<Show>> getShowByMovie(@PathVariable  String movie) {
-		return ResponseEntity.ok(showService.getShowByMovies(movie));
+//	@GetMapping("/movie/{movie}")
+//	public ResponseEntity<List<Show>> getShowByMovie(@PathVariable  String movie) {
+//		return ResponseEntity.ok(showService.getShowByMovies(movie));
+//	}
+
+	@GetMapping("/movie/{id}")
+	public ResponseEntity<List<Show>> getShowByMovieId(@PathVariable  long id) {
+		return ResponseEntity.ok(showService.getShowByMovieById(id));
 	}
 
-	@GetMapping("/theater/{theater}")
-	public ResponseEntity<List<Show>> getShowByTheater(@PathVariable String theater) {
-		return ResponseEntity.ok(showService.getShowByTheater(theater));
+	@GetMapping("/theater/{theaterId}")
+	public ResponseEntity<List<Show>> getShowByTheater(@PathVariable long theaterId) {
+		return ResponseEntity.ok(showService.getShowByTheater(theaterId));
 	}
 
 	// ADMIN APIS

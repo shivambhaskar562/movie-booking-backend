@@ -3,6 +3,7 @@ package com.moviebooking.www.entity;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -23,6 +24,7 @@ public class Users{
     private Set<String> roles;
 
     @OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Booking> bookings;
 
 

@@ -1,5 +1,6 @@
 package com.moviebooking.www.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,96 +20,115 @@ import com.moviebooking.www.service.ShowService;
 @Service
 public class ShowServiceImpl implements ShowService {
 
-	@Autowired
-	private ShowRepository showRepository;
+    @Autowired
+    private ShowRepository showRepository;
 
-	@Autowired
-	private MovieRepository movieRepository;
+    @Autowired
+    private MovieRepository movieRepository;
 
-	@Autowired
-	private TheaterRepository theaterRepository;
+    @Autowired
+    private TheaterRepository theaterRepository;
 
-	@Override
-	public List<Show> getAllShow() {
-		return showRepository.findAll();
-	}
+    @Override
+    public List<Show> getAllShow() {
+        return showRepository.findAll();
+    }
 
-	@Override
-	public List<Show> getShowByMovies(String movie) {
-		Optional<List<Show>> showListBox = showRepository.getShowByMovie(movie);
-		if (showListBox.isPresent()) {
-			return showListBox.get();
-		} else {
-			throw new RuntimeException("No such movie Show for movie " + movie);
-		}
-	}
+    @Override
+    public List<Show> getShowByMovies(String movie) {
+        Optional<List<Show>> showListBox = showRepository.getShowByMovie(movie);
+        if (showListBox.isPresent()) {
+            return showListBox.get();
+        } else {
+            throw new RuntimeException("No such movie Show for movie " + movie);
+        }
+    }
 
-	@Override
-	public List<Show> getShowByTheater(String theater) {
-		Optional<List<Show>> showListBox = showRepository.getShowByTheater(theater);
-		if (showListBox.isPresent()) {
-			return showListBox.get();
-		} else {
-			throw new RuntimeException("No such movie Show for theater " + theater);
-		}
-	}
+    @Override
+    public List<Show> getShowByTheater(long id) {
 
-	@Override
-	public Show addShow(ShowDTO showDTO) {
-		Movie movie = movieRepository.findById(showDTO.getMovieId())
-				.orElseThrow(() -> new RuntimeException("No such movie found for this ID " + showDTO.getMovieId()));
-		Theater theater = theaterRepository.findById(showDTO.getTheaterId())
-				.orElseThrow(() -> new RuntimeException("No such theater found for this ID " + showDTO.getTheaterId()));
+        List<Show> shows = showRepository.findAll();
+        List<Show> resultShows = new ArrayList<>();
 
-		Show show = new Show();
-		show.setMovie(movie);
-		show.setTheater(theater);
-		show.setPrice(showDTO.getPrice());
-		show.setShowTime(showDTO.getShowTime());
-		return showRepository.save(show);
-	}
+        for(Show show : shows){
+            Theater theater =  show.getTheater();
+            if(theater.getId() == id){
+                resultShows.add(show);
+            }
+        }
+        return resultShows;
+    }
 
-	@Override
-	public Show updateShow(long id, ShowDTO showDTO) {
-		Show show = showRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("No such show found for this ID " + id));
+    @Override
+    public Show addShow(ShowDTO showDTO) {
+        Movie movie = movieRepository.findById(showDTO.getMovieId())
+                .orElseThrow(() -> new RuntimeException("No such movie found for this ID " + showDTO.getMovieId()));
+        Theater theater = theaterRepository.findById(showDTO.getTheaterId())
+                .orElseThrow(() -> new RuntimeException("No such theater found for this ID " + showDTO.getTheaterId()));
 
-		Movie movie = movieRepository.findById(showDTO.getMovieId())
-				.orElseThrow(() -> new RuntimeException("No such movie found for this ID " + showDTO.getMovieId()));
-		Theater theater = theaterRepository.findById(showDTO.getTheaterId())
-				.orElseThrow(() -> new RuntimeException("No such theater found for this ID " + showDTO.getTheaterId()));
+        Show show = new Show();
+        show.setMovie(movie);
+        show.setTheater(theater);
+        show.setPrice(showDTO.getPrice());
+        show.setShowTime(showDTO.getShowTime());
+        return showRepository.save(show);
+    }
 
-		show.setMovie(movie);
-		show.setTheater(theater);
-		show.setPrice(showDTO.getPrice());
-		show.setShowTime(showDTO.getShowTime());
-		return showRepository.save(show);
-	}
+    @Override
+    public Show updateShow(long id, ShowDTO showDTO) {
+        Show show = showRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No such show found for this ID " + id));
 
-	@Override
-	public void deleteShow(long id) {
+        Movie movie = movieRepository.findById(showDTO.getMovieId())
+                .orElseThrow(() -> new RuntimeException("No such movie found for this ID " + showDTO.getMovieId()));
+        Theater theater = theaterRepository.findById(showDTO.getTheaterId())
+                .orElseThrow(() -> new RuntimeException("No such theater found for this ID " + showDTO.getTheaterId()));
 
-		Show show = showRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Nosuch show found for this ID " + id));
+        show.setMovie(movie);
+        show.setTheater(theater);
+        show.setPrice(showDTO.getPrice());
+        show.setShowTime(showDTO.getShowTime());
+        return showRepository.save(show);
+    }
 
-		List<Booking> bookings = show.getBookings();
-		if (bookings.isEmpty()) {
-			showRepository.delete(show);
-		} else {
-			throw new RuntimeException("You can not delete show there is booking");
-		}
+    @Override
+    public void deleteShow(long id) {
 
-	}
+        Show show = showRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Nosuch show found for this ID " + id));
 
-	@Override
-	public void deleteAllShow() {
-		List<Show> shows = showRepository.findAll();
-		for (Show show : shows) {
-			List<Booking> bookings = show.getBookings();
-			if (bookings.isEmpty()) {
-				showRepository.delete(show);
-			}
-		}
-	}
+        List<Booking> bookings = show.getBookings();
+        if (bookings.isEmpty()) {
+            showRepository.delete(show);
+        } else {
+            throw new RuntimeException("You can not delete show there is booking");
+        }
+
+    }
+
+    @Override
+    public void deleteAllShow() {
+        List<Show> shows = showRepository.findAll();
+        for (Show show : shows) {
+            List<Booking> bookings = show.getBookings();
+            if (bookings.isEmpty()) {
+                showRepository.delete(show);
+            }
+        }
+    }
+
+    @Override
+    public List<Show> getShowByMovieById(long id) {
+
+        List<Show> shows = showRepository.findAll();
+        List<Show> resultShows = new ArrayList<>();
+        for(Show show : shows){
+            Movie m =  show.getMovie();
+            if(m.getId() == id){
+                resultShows.add(show);
+            }
+        }
+        return resultShows;
+    }
 
 }

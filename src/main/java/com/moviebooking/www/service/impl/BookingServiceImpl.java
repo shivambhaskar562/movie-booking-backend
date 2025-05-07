@@ -96,13 +96,13 @@ public class BookingServiceImpl implements BookingService {
 	}
 
 	@Override
-	public List<Booking> getUserBooking(long id) {
+	public List<Booking> findUserBooking(long id) {
 		return bookingRepository.getUserBooking(id)
 				.orElseThrow(() -> new RuntimeException("No such booking found for 	id " + id));
 	}
 
 	@Override
-	public List<Booking> getShowBooking(long id) {
+	public List<Booking> findShowBooking(long id) {
 		return bookingRepository.getShowBooking(id)
 				.orElseThrow(() -> new RuntimeException("No such show found for id " + id));
 	}
@@ -130,16 +130,15 @@ public class BookingServiceImpl implements BookingService {
 			throw new RuntimeException("Booking is already been cancelled ");
 		}
 
-		// Implement The payment cancelation logic
+		// Implement The payment cancellation logic
 		booking.setBookingStatus(BookingStatus.CANCELLED);
 
 		return bookingRepository.save(booking);
 	}
 
 	@Override
-	public List<Booking> getBookingStatus(BookingStatus bookingStatus) {
-		return bookingRepository.getBookingStatus(bookingStatus)
-				.orElseThrow(() -> new RuntimeException("No Such booking found for this status " + bookingStatus));
+	public List<Booking> findAllBooking() {
+		return bookingRepository.findAll();
 	}
 
 }

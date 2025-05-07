@@ -9,19 +9,19 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 public class BookingDTO {
 
+    @NotNull
     private int noOfSeats;
 
     @DateTimeFormat
     private LocalDateTime bookingTime;
 
     @NotNull
-    private double price;
-
-    private BookingStatus bookingStatus;
-
     private List<String> seatNumbers;
 
+    @NotNull
     private long userId;
+
+    @NotNull
     private long showId;
 
     public int getNoOfSeats() {
@@ -38,22 +38,6 @@ public class BookingDTO {
 
     public void setBookingTime(LocalDateTime bookingTime) {
         this.bookingTime = bookingTime;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public BookingStatus getBookingStatus() {
-        return bookingStatus;
-    }
-
-    public void setBookingStatus(BookingStatus bookingStatus) {
-        this.bookingStatus = bookingStatus;
     }
 
     public List<String> getSeatNumbers() {

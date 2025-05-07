@@ -6,6 +6,8 @@ public class MovieDTO {
 
 	@NotNull(message = "Movie Title Can not be Null")
 	private String title;
+
+	@NotNull
 	private String description;
 
 	@NotNull(message = "Genre Can not be Null")
@@ -19,7 +21,6 @@ public class MovieDTO {
 	@NotNull
 	private String releaseDate;
 
-	@NotNull
 	public String getDescription() {
 		return description;
 	}

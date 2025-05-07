@@ -2,6 +2,7 @@ package com.moviebooking.www.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -26,6 +27,7 @@ public class Movie {
 	private String releaseDate;
 
 	@OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
+	@JsonIgnore
 	private List<Show> shows;
 
 	public long getId() {

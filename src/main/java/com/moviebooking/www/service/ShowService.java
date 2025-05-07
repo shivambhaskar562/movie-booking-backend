@@ -10,9 +10,11 @@ public interface ShowService {
 	
 	
 	List<Show> getShowByMovies(String movie);
-	List<Show> getShowByTheater(String theater);
+	List<Show> getShowByTheater(long theaterId);
 	Show addShow(ShowDTO showDTO);
 	Show updateShow(long id, ShowDTO showDTO);
 	void deleteShow(long id);
 	void deleteAllShow();
+
+    List<Show> getShowByMovieById(long id);
 }

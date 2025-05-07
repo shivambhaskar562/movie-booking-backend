@@ -13,10 +13,10 @@ import com.moviebooking.www.entity.BookingStatus;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long>{
 	
-	@Query("select booking from Booking booking where booking.users.id =:usersId")
+	@Query("select booking from Booking booking where booking.users.id =:id")
 	Optional<List<Booking>> getUserBooking(long id);
 	
-	@Query("select booking from Booking booking where booking.show.id =:showId")
+	@Query("select booking from Booking booking where booking.show.id =:id")
 	Optional<List<Booking>> getShowBooking(long id);
 	
 	@Query("select booking from Booking booking where booking.bookingStatus =:bookingStatus")

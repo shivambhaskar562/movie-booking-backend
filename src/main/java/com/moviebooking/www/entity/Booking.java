@@ -3,6 +3,7 @@ package com.moviebooking.www.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -29,6 +30,7 @@ public class Booking {
 	@CollectionTable(name = "booking_seat_no")
 	private List<String> seatNumbers;
 
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Users users;
 

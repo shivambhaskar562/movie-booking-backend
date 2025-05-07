@@ -10,7 +10,7 @@ public interface TheaterService {
 	Theater addTheater(TheaterDTO theaterDTO);
 	Theater updateTheater(long id, TheaterDTO theaterDTO);
 	void deleteTheater(long id);
-	void deleteAll();
+	void deleteAllTheater();
 
 	
 	List<Theater> findAllTheaters();

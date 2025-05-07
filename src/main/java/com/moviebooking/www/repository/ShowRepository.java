@@ -11,10 +11,9 @@ import com.moviebooking.www.entity.Show;
 
 @Repository
 public interface ShowRepository extends JpaRepository<Show, Long>{
+
 	
-	@Query("SELECT s FROM Show s WHERE s.theater.theaterName = :theaterName")
-	Optional<List<Show>> getShowByTheater(String theater);
-	
-	@Query("SELECT s FROM Show s WHERE s.movie.title = :movieTitle")
+	@Query("SELECT s FROM Show s WHERE s.movie.title = :title")
 	Optional<List<Show>> getShowByMovie(String movie);
+
 }

@@ -9,7 +9,9 @@ public class ShowDTO {
 	private LocalDateTime showTime;
 	@NotNull
 	private double price;
+	@NotNull
 	private long movieId;
+	@NotNull
 	private long theaterId;
 
 	public LocalDateTime getShowTime() {

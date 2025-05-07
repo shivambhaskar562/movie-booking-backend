@@ -64,7 +64,7 @@ public class TheaterServiceImpl implements TheaterService {
 	}
 
 	@Override
-	public void deleteAll() {
+	public void deleteAllTheater() {
 		theaterRepository.deleteAll();
 	}
 

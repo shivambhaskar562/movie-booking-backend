@@ -9,10 +9,10 @@ import com.moviebooking.www.entity.BookingStatus;
 public interface BookingService {
 	
 	Booking createBooking(BookingDTO bookingDTO);
-	List<Booking> getUserBooking(long id);
-	List<Booking> getShowBooking(long id);
+	List<Booking> findUserBooking(long id);
+	List<Booking> findShowBooking(long id);
 	Booking confirmBooking(long id);
 	Booking cancelBooking(long id);
-	List<Booking> getBookingStatus(BookingStatus bookingStatus);
+	List<Booking> findAllBooking();
 	
 }

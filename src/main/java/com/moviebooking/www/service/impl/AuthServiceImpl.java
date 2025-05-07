@@ -68,6 +68,7 @@ public class AuthServiceImpl implements AuthService {
             throw new RuntimeException("Password is Incorrect please try again");
         }
         LoginResponseDTO loginResponseDTO = new LoginResponseDTO();
+        loginResponseDTO.setId((users.getId()));
         loginResponseDTO.setUsername(users.getUsername());
         loginResponseDTO.setRoles(users.getRoles());
         return loginResponseDTO;

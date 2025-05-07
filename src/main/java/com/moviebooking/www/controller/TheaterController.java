@@ -24,8 +24,8 @@ public class TheaterController {
 		return ResponseEntity.ok(theaterService.findAllTheaters());
 	}
 
-	@GetMapping("/allocation")
-	public ResponseEntity<List<Theater>> getTheaterByLocation(@RequestParam String location) {
+	@GetMapping("/{location}")
+	public ResponseEntity<List<Theater>> findTheaterByLocation(@PathVariable String location) {
 		return ResponseEntity.ok(theaterService.findTheaterByLocation(location));
 	}
 
@@ -46,5 +46,13 @@ public class TheaterController {
 		theaterService.deleteTheater(id);
 		return ResponseEntity.ok().build();
 	}
+
+	@DeleteMapping
+	public ResponseEntity<Theater> deleteAllTheater() {
+		theaterService.deleteAllTheater();
+		return ResponseEntity.ok().build();
+	}
+
+
 
 }

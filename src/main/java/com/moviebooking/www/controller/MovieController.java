@@ -20,22 +20,22 @@ public class MovieController {
 	private MovieService movieService;
 
 	@GetMapping("/all")
-	public ResponseEntity<List<Movie>> getAllMovie() {
+	public ResponseEntity<List<Movie>> findAllMovie() {
 		return ResponseEntity.ok(movieService.getAllMovie());
 	}
 
-	@GetMapping("/genre")
-	public ResponseEntity<List<Movie>> getMovieByGenre(@RequestParam String genre) {
+	@GetMapping("/genre/{genre}")
+	public ResponseEntity<List<Movie>> getMovieByGenre(@PathVariable String genre) {
 		return ResponseEntity.ok(movieService.getMovieByGenre(genre));
 	}
 
-	@GetMapping("/language")
-	public ResponseEntity<List<Movie>> getMovieByLanguage(@RequestParam String language) {
+	@GetMapping("/language/{language}")
+	public ResponseEntity<List<Movie>> getMovieByLanguage(@PathVariable String language) {
 		return ResponseEntity.ok(movieService.getMovieByLanguage(language));
 	}
 
-	@GetMapping("/title")
-	public ResponseEntity<List<Movie>> getMovieByTitle(@RequestParam String title) {
+	@GetMapping("/name/{title}")
+	public ResponseEntity<List<Movie>> getMovieByTitle(@PathVariable String title) {
 		return ResponseEntity.ok(movieService.getMovieByTitle(title));
 	}
 
@@ -47,7 +47,7 @@ public class MovieController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Movie> editMovie(@PathVariable long id, @RequestBody @Valid MovieDTO movieDTO) {
+	public ResponseEntity<Movie> updateMovie(@PathVariable long id, @RequestBody @Valid MovieDTO movieDTO) {
 		return ResponseEntity.ok(movieService.updateMovie(id, movieDTO));
 	}
 

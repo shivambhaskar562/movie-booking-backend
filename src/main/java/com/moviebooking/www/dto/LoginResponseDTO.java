@@ -3,8 +3,17 @@ package com.moviebooking.www.dto;
 import java.util.Set;
 
 public class LoginResponseDTO {
+    private long id;
     private String username;
     private Set<String> roles;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     // Constructor
     public LoginResponseDTO() {

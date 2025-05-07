@@ -3,6 +3,7 @@ package com.moviebooking.www.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -28,6 +29,7 @@ public class Show {
 	private Theater theater;
 
 	@OneToMany(fetch = FetchType.LAZY)
+	@JsonIgnore
 	private List<Booking> bookings;
 
 	public long getId() {

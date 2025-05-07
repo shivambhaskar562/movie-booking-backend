@@ -21,20 +21,20 @@ public class BookingController {
 	private BookingService bookingService;
 
 	@PostMapping
-	public ResponseEntity<Booking> createBooking(@RequestBody @Valid BookingDTO bookingDTO) {
+	public ResponseEntity<Booking> newBooking(@RequestBody @Valid BookingDTO bookingDTO) {
 		return ResponseEntity.ok(bookingService.createBooking(bookingDTO));
 	}
 
 	@GetMapping("/user/{id}")
-	public ResponseEntity<List<Booking>> getUserBooking(@PathVariable long id) {
-		return ResponseEntity.ok(bookingService.getUserBooking(id));
+	public ResponseEntity<List<Booking>> findBookingByUer(@PathVariable long id) {
+		return ResponseEntity.ok(bookingService.findUserBooking(id));
 	}
 
 	@GetMapping("/show/{id}")
-	public ResponseEntity<List<Booking>> getShowBooking(@PathVariable long id) {
-		return ResponseEntity.ok(bookingService.getShowBooking(id));
+	public ResponseEntity<List<Booking>> findBookingByShow(@PathVariable long id) {
+		return ResponseEntity.ok(bookingService.findShowBooking(id));
 	}
-
+	// Payment page integrate
 	@PutMapping("/{id}/confirm")
 	public ResponseEntity<Booking> conformBooking(@PathVariable long id) {
 		return ResponseEntity.ok(bookingService.confirmBooking(id));
@@ -45,9 +45,9 @@ public class BookingController {
 		return ResponseEntity.ok(bookingService.cancelBooking(id));
 	}
 
-	@GetMapping("/{bookingStatus}")
-	public ResponseEntity<List<Booking>> getBookingStatus(@PathVariable @Valid BookingStatus bookingStatus) {
-		return ResponseEntity.ok(bookingService.getBookingStatus(bookingStatus));
+	@GetMapping("/all")
+	public ResponseEntity<List<Booking>> findAllBooking() {
+		return ResponseEntity.ok(bookingService.findAllBooking());
 	}
 
 }
