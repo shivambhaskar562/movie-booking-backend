@@ -4,10 +4,7 @@ import com.moviebooking.www.dto.LoginResponseDTO;
 import com.moviebooking.www.entity.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.moviebooking.www.dto.LoginRequestDTO;
 import com.moviebooking.www.dto.RegisterRequestDTO;
@@ -17,6 +14,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "http://127.0.0.1:3000")
 public class AuthController {
 
     @Autowired

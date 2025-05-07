@@ -19,16 +19,17 @@ public class MovieDTO {
 	@NotNull
 	private String releaseDate;
 
+	@NotNull
+	public String getDescription() {
+		return description;
+	}
+
 	public String getTitle() {
 		return title;
 	}
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public String getDescription() {
-		return description;
 	}
 
 	public void setDescription(String description) {

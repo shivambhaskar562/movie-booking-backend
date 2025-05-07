@@ -4,15 +4,7 @@ import com.moviebooking.www.entity.Movie;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.moviebooking.www.dto.MovieDTO;
 import com.moviebooking.www.service.MovieService;
@@ -21,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/movie")
+@CrossOrigin(origins = "http://127.0.0.1:3000")
 public class MovieController {
 
 	@Autowired
@@ -31,17 +24,17 @@ public class MovieController {
 		return ResponseEntity.ok(movieService.getAllMovie());
 	}
 
-	@GetMapping("/{genre}")
+	@GetMapping("/genre")
 	public ResponseEntity<List<Movie>> getMovieByGenre(@RequestParam String genre) {
 		return ResponseEntity.ok(movieService.getMovieByGenre(genre));
 	}
 
-	@GetMapping("/{language}")
+	@GetMapping("/language")
 	public ResponseEntity<List<Movie>> getMovieByLanguage(@RequestParam String language) {
 		return ResponseEntity.ok(movieService.getMovieByLanguage(language));
 	}
 
-	@GetMapping("/{title}")
+	@GetMapping("/title")
 	public ResponseEntity<List<Movie>> getMovieByTitle(@RequestParam String title) {
 		return ResponseEntity.ok(movieService.getMovieByTitle(title));
 	}
