@@ -6,15 +6,11 @@ import com.moviebooking.www.dto.ShowDTO;
 import com.moviebooking.www.entity.Show;
 
 public interface ShowService {
-	List<Show> getAllShow();
-	
-	
-	List<Show> getShowByMovies(String movie);
-	List<Show> getShowByTheater(long theaterId);
+	List<Show> findAllShow();
+	List<Show> findByMovieId(long movieId);
+	List<Show> findByTheaterId(long theaterId);
 	Show addShow(ShowDTO showDTO);
-	Show updateShow(long id, ShowDTO showDTO);
+	Show updateShow(long id, ShowDTO showShow);
 	void deleteShow(long id);
 	void deleteAllShow();
-
-    List<Show> getShowByMovieById(long id);
 }

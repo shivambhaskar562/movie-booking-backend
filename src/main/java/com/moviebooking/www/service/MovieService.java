@@ -6,15 +6,15 @@ import com.moviebooking.www.dto.MovieDTO;
 import com.moviebooking.www.entity.Movie;
 
 public interface MovieService {
-	List<Movie> getAllMovie();
-	List<Movie> getMovieByGenre(String genre);
-	List<Movie> getMovieByLanguage(String language);
-	List<Movie> getMovieByTitle(String title);
+	List<Movie> findAllMovie();
+	List<Movie> findMovieByGenre(String genre);
+	List<Movie> findMovieByLanguage(String language);
+	List<Movie> findMovieByTitle(String title);
 
 	
 	Movie addMovie(MovieDTO movieDTO);
 	Movie updateMovie(long id, MovieDTO movieDTO);
 	void deleteMovies(long id);
-	void deletAllMovie();
+	void deleteAllMovie();
 	
 }

@@ -21,11 +21,10 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Users registerUser(RegisterRequestDTO registerRequestDTO) {
-        if (usersRepository.findByUsername(registerRequestDTO.getUsername()).isPresent()
-                || usersRepository.findByEmail(registerRequestDTO.getEmail()).isPresent()) {
+        if (usersRepository.findByUsername(registerRequestDTO.getUsername()).isPresent() && usersRepository.findByEmail(registerRequestDTO.getEmail()).isPresent()) {
+
             throw new RuntimeException("User is Already Registered");
         }
-
 
         Set<String> roles = new HashSet<>();
         roles.add("USER");
@@ -35,14 +34,14 @@ public class AuthServiceImpl implements AuthService {
         users.setEmail(registerRequestDTO.getEmail());
         users.setPassword(registerRequestDTO.getPassword());
         users.setRoles(roles);
+
         return usersRepository.save(users);
     }
 
 
     @Override
     public Users registerAdmin(RegisterRequestDTO registerRequestDTO) {
-        if (usersRepository.findByUsername(registerRequestDTO.getUsername()).isPresent()
-                || usersRepository.findByEmail(registerRequestDTO.getEmail()).isPresent()) {
+        if (usersRepository.findByUsername(registerRequestDTO.getUsername()).isPresent() || usersRepository.findByEmail(registerRequestDTO.getEmail()).isPresent()) {
             throw new RuntimeException("User is Already Registered");
         }
 
@@ -57,20 +56,26 @@ public class AuthServiceImpl implements AuthService {
         users.setEmail(registerRequestDTO.getEmail());
         users.setPassword(registerRequestDTO.getPassword());
         users.setRoles(roles);
+
         return usersRepository.save(users);
     }
 
     @Override
     public LoginResponseDTO login(LoginRequestDTO loginRequestDTO) {
+
         Users users = usersRepository.findByUsername(loginRequestDTO.getUsername())
-                .orElseThrow(() -> new RuntimeException("No such user is Not exist with this username " + loginRequestDTO.getUsername()));
+                .orElseGet(() -> usersRepository.findByEmail(loginRequestDTO.getUsername())
+                        .orElseThrow(() -> new RuntimeException("No user exists with this username/email: " + loginRequestDTO.getUsername())));
+
         if (!users.getPassword().equals(loginRequestDTO.getPassword())) {
             throw new RuntimeException("Password is Incorrect please try again");
         }
+
         LoginResponseDTO loginResponseDTO = new LoginResponseDTO();
         loginResponseDTO.setId((users.getId()));
         loginResponseDTO.setUsername(users.getUsername());
         loginResponseDTO.setRoles(users.getRoles());
+
         return loginResponseDTO;
     }
 

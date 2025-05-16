@@ -24,21 +24,24 @@ public class TheaterServiceImpl implements TheaterService {
 
 	@Override
 	public List<Theater> findTheaterByLocation(String location) {
-		Optional<List<Theater>> theaterListBox = theaterRepository.findByTheaterLocation(location);
-		if (theaterListBox.isPresent()) {
-			return theaterListBox.get();
-		} else {
-			throw new RuntimeException("No such theater found for this location " + location);
+		List<Theater> theaters = theaterRepository.findByTheaterLocation(location);
+		if(theaters.isEmpty()){
+				throw new RuntimeException("No theaters found in location: " + location);
 		}
+		return theaters;
 	}
+
 
 	@Override
 	public Theater addTheater(TheaterDTO theaterDTO) {
+
 		Theater theater = new Theater();
+
 		theater.setTheaterName(theaterDTO.getTheaterName());
 		theater.setTheaterLocation(theaterDTO.getTheaterLocation());
 		theater.setTheaterScreenType(theaterDTO.getTheaterScreenType());
 		theater.setTheaterCapacity(theaterDTO.getTheaterCapacity());
+
 		return theaterRepository.save(theater);
 	}
 
@@ -46,11 +49,14 @@ public class TheaterServiceImpl implements TheaterService {
 	public Theater updateTheater(long id, TheaterDTO theaterDTO) {
 		Optional<Theater> theaterBox = theaterRepository.findById(id);
 		if(theaterBox.isPresent()) {
+
 			Theater theater = theaterBox.get();
+
 			theater.setTheaterName(theaterDTO.getTheaterName());
 			theater.setTheaterLocation(theaterDTO.getTheaterLocation());
 			theater.setTheaterScreenType(theaterDTO.getTheaterScreenType());
 			theater.setTheaterCapacity(theaterDTO.getTheaterCapacity());
+
 			return theaterRepository.save(theater);
 		}
 		else {
@@ -60,8 +66,12 @@ public class TheaterServiceImpl implements TheaterService {
 
 	@Override
 	public void deleteTheater(long id) {
+		if (!theaterRepository.existsById(id)) {
+			throw new RuntimeException("No such theater found with ID: " + id);
+		}
 		theaterRepository.deleteById(id);
 	}
+
 
 	@Override
 	public void deleteAllTheater() {

@@ -1,14 +1,17 @@
 package com.moviebooking.www.controller;
 
 import com.moviebooking.www.entity.Show;
+import com.moviebooking.www.response.ResponseStructure;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.moviebooking.www.dto.ShowDTO;
 import com.moviebooking.www.service.ShowService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -20,46 +23,102 @@ public class ShowController {
 	ShowService showService;
 
 	@GetMapping
-	public ResponseEntity<List<Show>> getAllShow() {
-		return ResponseEntity.ok(showService.getAllShow());
+	public ResponseEntity<ResponseStructure<List<Show>>> findAllShow() {
+		List<Show> shows = showService.findAllShow();
+
+		ResponseStructure<List<Show>> responseStructure = new ResponseStructure<>();
+
+		responseStructure.setStatus("Success");
+		responseStructure.setStatusCode(HttpStatus.OK.value());
+		responseStructure.setMessage("Founded List of Shows");
+		responseStructure.setDateTime(LocalDateTime.now());
+		responseStructure.setData(shows);
+		return new ResponseEntity<>(responseStructure, HttpStatus.OK);
 	}
 
-//	@GetMapping("/movie/{movie}")
-//	public ResponseEntity<List<Show>> getShowByMovie(@PathVariable  String movie) {
-//		return ResponseEntity.ok(showService.getShowByMovies(movie));
-//	}
-
 	@GetMapping("/movie/{id}")
-	public ResponseEntity<List<Show>> getShowByMovieId(@PathVariable  long id) {
-		return ResponseEntity.ok(showService.getShowByMovieById(id));
+	public ResponseEntity<ResponseStructure<List<Show>>> findByMovieId(@PathVariable  long id) {
+		List<Show> shows = showService.findByMovieId(id);
+
+		ResponseStructure<List<Show>> responseStructure = new ResponseStructure<>();
+
+		responseStructure.setStatus("Success");
+		responseStructure.setStatusCode(HttpStatus.OK.value());
+		responseStructure.setMessage("Founded List of Shows");
+		responseStructure.setDateTime(LocalDateTime.now());
+		responseStructure.setData(shows);
+		return new ResponseEntity<>(responseStructure, HttpStatus.OK);
 	}
 
 	@GetMapping("/theater/{theaterId}")
-	public ResponseEntity<List<Show>> getShowByTheater(@PathVariable long theaterId) {
-		return ResponseEntity.ok(showService.getShowByTheater(theaterId));
+	public ResponseEntity<ResponseStructure<List<Show>>> findByTheaterId(@PathVariable long theaterId) {
+		List<Show> shows = showService.findByTheaterId(theaterId);
+
+		ResponseStructure<List<Show>> responseStructure = new ResponseStructure<>();
+
+		responseStructure.setStatus("Success");
+		responseStructure.setStatusCode(HttpStatus.OK.value());
+		responseStructure.setMessage("Founded List of Shows");
+		responseStructure.setDateTime(LocalDateTime.now());
+		responseStructure.setData(shows);
+		return new ResponseEntity<>(responseStructure, HttpStatus.OK);
 	}
 
-	// ADMIN APIS
-	// -----------------------------------------------------------------------------------------
+	// Admin access
 	@PostMapping
-	public ResponseEntity<Show> addShow(@RequestBody @Valid ShowDTO showDTO) {
-		return ResponseEntity.ok(showService.addShow(showDTO));
+	public ResponseEntity<ResponseStructure<Show>> addShow(@RequestBody @Valid ShowDTO showDTO) {
+		Show show = showService.addShow(showDTO);
+
+		ResponseStructure<Show> responseStructure = new ResponseStructure<>();
+
+		responseStructure.setStatus("Success");
+		responseStructure.setStatusCode(HttpStatus.OK.value());
+		responseStructure.setMessage("Show Created");
+		responseStructure.setDateTime(LocalDateTime.now());
+		responseStructure.setData(show);
+		return new ResponseEntity<>(responseStructure, HttpStatus.OK);
 	}
 
+	// Admin access
 	@PutMapping("/{id}")
-	public ResponseEntity<Show> updateShow(@PathVariable long id, @RequestBody @Valid ShowDTO showDTO) {
-		return ResponseEntity.ok(showService.updateShow(id, showDTO));
+	public ResponseEntity<ResponseStructure<Show>> updateShow(@PathVariable long id, @RequestBody @Valid ShowDTO showDTO) {
+		Show show = showService.updateShow(id, showDTO);
+
+		ResponseStructure<Show> responseStructure = new ResponseStructure<>();
+
+		responseStructure.setStatus("Success");
+		responseStructure.setStatusCode(HttpStatus.OK.value());
+		responseStructure.setMessage("List of shows found");
+		responseStructure.setDateTime(LocalDateTime.now());
+		responseStructure.setData(show);
+		return new ResponseEntity<>(responseStructure, HttpStatus.OK);
 	}
 
+	// Admin access
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Show> deleteShow(@PathVariable long id) {
+	public ResponseEntity<ResponseStructure<?>> deleteShow(@PathVariable long id) {
 		showService.deleteShow(id);
-		return ResponseEntity.ok().build();
+
+		ResponseStructure<?> responseStructure = new ResponseStructure<>();
+
+		responseStructure.setStatus("Success");
+		responseStructure.setStatusCode(HttpStatus.OK.value());
+		responseStructure.setMessage("Show deleted");
+		responseStructure.setDateTime(LocalDateTime.now());
+		return new ResponseEntity<>(responseStructure, HttpStatus.OK);
 	}
 
+	// Admin access
 	@DeleteMapping
-	public ResponseEntity<List<Show>> deleteAllShow() {
+	public ResponseEntity<ResponseStructure<?>> deleteAllShow() {
 		showService.deleteAllShow();
-		return ResponseEntity.ok().build();
+
+		ResponseStructure<?> responseStructure = new ResponseStructure<>();
+
+		responseStructure.setStatus("Success");
+		responseStructure.setStatusCode(HttpStatus.OK.value());
+		responseStructure.setMessage("Founded List of Shows");
+		responseStructure.setDateTime(LocalDateTime.now());
+		return new ResponseEntity<>(responseStructure, HttpStatus.OK);
 	}
 }

@@ -1,7 +1,6 @@
 package com.moviebooking.www.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,12 +13,14 @@ import com.moviebooking.www.entity.BookingStatus;
 public interface BookingRepository extends JpaRepository<Booking, Long>{
 	
 	@Query("select booking from Booking booking where booking.users.id =:id")
-	Optional<List<Booking>> getUserBooking(long id);
+	List<Booking> findUserBooking(long id);
 	
 	@Query("select booking from Booking booking where booking.show.id =:id")
-	Optional<List<Booking>> getShowBooking(long id);
-	
-	@Query("select booking from Booking booking where booking.bookingStatus =:bookingStatus")
-	Optional<List<Booking>> getBookingStatus(BookingStatus bookingStatus);
+	List<Booking> findAllBookingByShow(long id);
 
+	@Query("select booking from Booking booking where booking.show.movie.id =:id")
+	List<Booking> findAllBookingByMovie(long id);
+	
+//	@Query("select booking from Booking booking where booking.bookingStatus =:bookingStatus")
+//	List<Booking> findBookingStatus(BookingStatus bookingStatus);
 }

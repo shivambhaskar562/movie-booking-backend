@@ -2,7 +2,6 @@ package com.moviebooking.www.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,78 +29,71 @@ public class ShowServiceImpl implements ShowService {
     private TheaterRepository theaterRepository;
 
     @Override
-    public List<Show> getAllShow() {
+    public List<Show> findAllShow() {
         return showRepository.findAll();
     }
 
     @Override
-    public List<Show> getShowByMovies(String movie) {
-        Optional<List<Show>> showListBox = showRepository.getShowByMovie(movie);
-        if (showListBox.isPresent()) {
-            return showListBox.get();
-        } else {
-            throw new RuntimeException("No such movie Show for movie " + movie);
-        }
+    public List<Show> findByMovieId(long id) {
+        return showRepository.findByMovieId(id);
     }
 
     @Override
-    public List<Show> getShowByTheater(long id) {
-
-        List<Show> shows = showRepository.findAll();
-        List<Show> resultShows = new ArrayList<>();
-
-        for(Show show : shows){
-            Theater theater =  show.getTheater();
-            if(theater.getId() == id){
-                resultShows.add(show);
-            }
-        }
-        return resultShows;
+    public List<Show> findByTheaterId(long id) {
+        return showRepository.findByTheaterId(id);
     }
 
     @Override
     public Show addShow(ShowDTO showDTO) {
+
         Movie movie = movieRepository.findById(showDTO.getMovieId())
-                .orElseThrow(() -> new RuntimeException("No such movie found for this ID " + showDTO.getMovieId()));
+                .orElseThrow(()-> new RuntimeException("No such movie found for this ID " + showDTO.getMovieId()));
+
         Theater theater = theaterRepository.findById(showDTO.getTheaterId())
-                .orElseThrow(() -> new RuntimeException("No such theater found for this ID " + showDTO.getTheaterId()));
+                .orElseThrow(()-> new RuntimeException("No such theater found for this ID " + showDTO.getTheaterId()));
 
         Show show = new Show();
+
         show.setMovie(movie);
         show.setTheater(theater);
-        show.setPrice(showDTO.getPrice());
         show.setShowTime(showDTO.getShowTime());
+        show.setPrice(showDTO.getPrice());
+
         return showRepository.save(show);
     }
 
     @Override
     public Show updateShow(long id, ShowDTO showDTO) {
-        Show show = showRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("No such show found for this ID " + id));
+
+        Show oldShow = showRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("Show not found for ID: "+ id));
 
         Movie movie = movieRepository.findById(showDTO.getMovieId())
-                .orElseThrow(() -> new RuntimeException("No such movie found for this ID " + showDTO.getMovieId()));
-        Theater theater = theaterRepository.findById(showDTO.getTheaterId())
-                .orElseThrow(() -> new RuntimeException("No such theater found for this ID " + showDTO.getTheaterId()));
+                .orElseThrow(()-> new RuntimeException("No such movie found for this ID " + showDTO.getMovieId()));
 
-        show.setMovie(movie);
-        show.setTheater(theater);
-        show.setPrice(showDTO.getPrice());
-        show.setShowTime(showDTO.getShowTime());
-        return showRepository.save(show);
+        Theater theater = theaterRepository.findById(showDTO.getTheaterId())
+                .orElseThrow(()-> new RuntimeException("No such theater found for this ID " + showDTO.getTheaterId()));
+
+
+        oldShow.setShowTime(showDTO.getShowTime());
+        oldShow.setPrice(showDTO.getPrice());
+        oldShow.setMovie(movie);
+        oldShow.setTheater(theater);
+
+        return showRepository.save(oldShow);
     }
 
     @Override
     public void deleteShow(long id) {
 
         Show show = showRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Nosuch show found for this ID " + id));
+                .orElseThrow(() -> new RuntimeException("No such show found for this ID " + id));
 
         List<Booking> bookings = show.getBookings();
         if (bookings.isEmpty()) {
             showRepository.delete(show);
         } else {
-            throw new RuntimeException("You can not delete show there is booking");
+            throw new RuntimeException("Cannot delete show as there is an active booking");
         }
 
     }
@@ -115,20 +107,6 @@ public class ShowServiceImpl implements ShowService {
                 showRepository.delete(show);
             }
         }
-    }
-
-    @Override
-    public List<Show> getShowByMovieById(long id) {
-
-        List<Show> shows = showRepository.findAll();
-        List<Show> resultShows = new ArrayList<>();
-        for(Show show : shows){
-            Movie m =  show.getMovie();
-            if(m.getId() == id){
-                resultShows.add(show);
-            }
-        }
-        return resultShows;
     }
 
 }

@@ -3,7 +3,6 @@ package com.moviebooking.www.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.moviebooking.www.entity.BookingStatus;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 

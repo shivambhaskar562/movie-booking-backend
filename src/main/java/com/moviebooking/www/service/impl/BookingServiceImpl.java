@@ -3,10 +3,10 @@ package com.moviebooking.www.service.impl;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.moviebooking.www.dto.BookingDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.moviebooking.www.dto.BookingDTO;
 import com.moviebooking.www.entity.Booking;
 import com.moviebooking.www.entity.BookingStatus;
 import com.moviebooking.www.entity.Show;
@@ -19,126 +19,144 @@ import com.moviebooking.www.service.BookingService;
 @Service
 public class BookingServiceImpl implements BookingService {
 
-	@Autowired
-	private BookingRepository bookingRepository;
+    @Autowired
+    private BookingRepository bookingRepository;
 
-	@Autowired
-	private ShowRepository showRepository;
+    @Autowired
+    private ShowRepository showRepository;
 
-	@Autowired
-	private UsersRepository usersRepositary;
+    @Autowired
+    private UsersRepository usersRepository;
 
-	@Override
-	public Booking createBooking(BookingDTO bookingDTO) {
-		Show show = showRepository.findById(bookingDTO.getShowId())
-				.orElseThrow(() -> new RuntimeException("No such show found for id" + bookingDTO.getShowId()));
+    @Override
+    public Booking createBooking(BookingDTO bookingDTO) {
 
-		if (!isSeatAvailable(show, bookingDTO.getNoOfSeats())) {
-			throw new RuntimeException(bookingDTO.getNoOfSeats() + " No of seat is not available only ");
-		}
+        Show show = showRepository.findById(bookingDTO.getShowId())
+                .orElseThrow(()-> new RuntimeException(" No such show available for this "+bookingDTO.getShowId()));
 
-		// Checking the no of seat and selected seatno is equal or not
-		if (bookingDTO.getSeatNumbers() == null || bookingDTO.getNoOfSeats() != bookingDTO.getSeatNumbers().size()) {
-			throw new RuntimeException("No of seat " + bookingDTO.getNoOfSeats() + " is not equal to  seat selected"
-					+ bookingDTO.getSeatNumbers().size());
-		}
-		// checking the same seat no is not booked again
-		if (isDuplicateSeat(show, bookingDTO.getSeatNumbers())) {
-			throw new RuntimeException("Selected seat no is already booked");
-		}
+        Users users = usersRepository.findById(bookingDTO.getUserId())
+                .orElseThrow(() -> new RuntimeException("No such user found for id " + bookingDTO.getUserId()));
 
-		Users users = usersRepositary.findById(bookingDTO.getUserId()).orElseThrow(() -> new RuntimeException());
 
-		Booking booking = new Booking();
-		booking.setNoOfSeats(bookingDTO.getNoOfSeats());
-		booking.setBookingStatus(BookingStatus.PENDING);
-		booking.setBookingTime(LocalDateTime.now());
-		booking.setPrice(calculatePrice(bookingDTO.getNoOfSeats(), show.getPrice()));
-		booking.setSeatNumbers(bookingDTO.getSeatNumbers());
-		booking.setShow(show);
-		booking.setUsers(users);
+        Booking booking = new Booking();
 
-		return bookingRepository.save(booking);
-	}
+        booking.setNoOfSeats(bookingDTO.getNoOfSeats());
+        booking.setSeatNumbers(bookingDTO.getSeatNumbers());
+        booking.setBookingTime(LocalDateTime.now());
+        booking.setShow(show);
+        booking.setUsers(users);
+        booking.setBookingStatus(BookingStatus.PENDING);
+        booking.setPrice(calculatePrice(booking.getNoOfSeats(), show.getPrice()));
 
-	private double calculatePrice(int noOfSeat, double price) {
-		return noOfSeat * price;
-	}
+        //IS seat Available
+        if (!isSeatAvailable(show, booking.getNoOfSeats())) {
+            throw new RuntimeException(booking.getNoOfSeats() + " No of seat is not available only ");
+        }
 
-	private boolean isDuplicateSeat(Show show, List<String> bookingSeats) {
-		List<Booking> allSeat = show.getBookings();
-		for (Booking booking : allSeat) {
-			if (booking.getBookingStatus() != BookingStatus.CANCELLED) {
-				for (String bookedSeat : booking.getSeatNumbers()) {
-					if (bookingSeats.contains(bookedSeat)) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
+        // Checking the no of seat and selected seatNo is equal or not
+        if (booking.getSeatNumbers() == null || booking.getNoOfSeats() != booking.getSeatNumbers().size()) {
+            throw new RuntimeException("No of seat " + booking.getNoOfSeats() + " is not equal to  seat selected"
+                    + booking.getSeatNumbers().size());
+        }
 
-	private boolean isSeatAvailable(Show show, int noOfSeat) {
+        // checking the same seat no is not booked again
+        if (isDuplicateSeat(show, booking.getSeatNumbers())) {
+            throw new RuntimeException("Selected seat no is already booked");
+        }
 
-		List<Booking> listOfBookings = show.getBookings();
-		int noOfSeatBooked = 0;
-		for (Booking booking : listOfBookings) {
-			noOfSeatBooked += booking.getSeatNumbers().size();
+        return bookingRepository.save(booking);
+    }
 
-		}
+    private double calculatePrice(int noOfSeat, double price) {
+        return noOfSeat * price;
+    }
 
-		if (show.getTheater().getTheaterCapacity() - noOfSeatBooked >= noOfSeat) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+    private boolean isDuplicateSeat(Show show, List<String> bookingSeats) {
+        List<Booking> allSeat = show.getBookings();
+        for (Booking booking : allSeat) {
+            if (booking.getBookingStatus() != BookingStatus.CANCELLED) {
+                for (String bookedSeat : booking.getSeatNumbers()) {
+                    if (bookingSeats.contains(bookedSeat)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
-	@Override
-	public List<Booking> findUserBooking(long id) {
-		return bookingRepository.getUserBooking(id)
-				.orElseThrow(() -> new RuntimeException("No such booking found for 	id " + id));
-	}
+    private boolean isSeatAvailable(Show show, int noOfSeat) {
 
-	@Override
-	public List<Booking> findShowBooking(long id) {
-		return bookingRepository.getShowBooking(id)
-				.orElseThrow(() -> new RuntimeException("No such show found for id " + id));
-	}
+        List<Booking> listOfBookings = show.getBookings();
+        int noOfSeatBooked = 0;
+        for (Booking booking : listOfBookings) {
+            noOfSeatBooked += booking.getSeatNumbers().size();
+        }
 
-	@Override
-	public Booking confirmBooking(long id) {
-		Booking booking = bookingRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("No such booking found for this id " + id));
-		if (booking.getBookingStatus() != BookingStatus.PENDING) {
-			throw new RuntimeException("No such show found for id " + id);
-		}
+        return show.getTheater().getTheaterCapacity() - noOfSeatBooked >= noOfSeat;
+    }
 
-		// Implement Payment page here
-		booking.setBookingStatus(BookingStatus.CONFIRMED);
+    @Override
+    public List<Booking> findUserBooking(long id) {
+        List<Booking> bookings = bookingRepository.findUserBooking(id);
+        if(bookings.isEmpty()){
+            throw new RuntimeException("No such booking found for 	id " + id);
+        }
+        return bookings;
+    }
 
-		return bookingRepository.save(booking);
-	}
+    @Override
+    public List<Booking> findAllBookingByShow(long id) {
+        List<Booking> bookings = bookingRepository.findAllBookingByShow(id);
+        if(bookings.isEmpty()){
+            throw  new RuntimeException("No such booking found for id " + id);
+        }
+        return bookings;
+    }
 
-	@Override
-	public Booking cancelBooking(long id) {
-		Booking booking = bookingRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("No such booking found for this id " + id));
+    @Override
+    public List<Booking> findAllBookingByMovie(long id) {
+        List<Booking> bookings = bookingRepository.findAllBookingByMovie(id);
+        if(bookings.isEmpty()){
+            throw new RuntimeException("No such booking found for id " + id);
+        }
 
-		if (booking.getBookingStatus() == BookingStatus.CANCELLED) {
-			throw new RuntimeException("Booking is already been cancelled ");
-		}
+        return bookings;
+    }
 
-		// Implement The payment cancellation logic
-		booking.setBookingStatus(BookingStatus.CANCELLED);
+    @Override
+    public Booking confirmBooking(long id) {
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No such booking found for this id " + id));
 
-		return bookingRepository.save(booking);
-	}
+        if (booking.getBookingStatus() != BookingStatus.PENDING) {
+            throw new RuntimeException("Booking is not in a PENDING state for confirmation");
+        }
 
-	@Override
-	public List<Booking> findAllBooking() {
-		return bookingRepository.findAll();
-	}
+        // Implement Payment page here
+        booking.setBookingStatus(BookingStatus.CONFIRMED);
+
+        return bookingRepository.save(booking);
+    }
+
+    @Override
+    public Booking cancelBooking(long id) {
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No such booking found for this id " + id));
+
+        if (booking.getBookingStatus() == BookingStatus.CANCELLED) {
+            throw new RuntimeException("Booking is already been cancelled ");
+        }
+
+        // Implement The payment cancellation logic
+        booking.setBookingStatus(BookingStatus.CANCELLED);
+
+        return bookingRepository.save(booking);
+    }
+
+    @Override
+    public List<Booking> findAllBooking() {
+        return bookingRepository.findAll();
+    }
 
 }

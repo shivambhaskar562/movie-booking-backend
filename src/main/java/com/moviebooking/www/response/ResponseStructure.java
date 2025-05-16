@@ -2,14 +2,14 @@ package com.moviebooking.www.response;
 
 import java.time.LocalDateTime;
 
-public class ResponseAPI <T>{
+public class ResponseStructure<T>{
     private String status;
     private int statusCode;
     private String message;
     private T data;
     private LocalDateTime dateTime;
 
-    public ResponseAPI(String status, int statusCode, String message, T data, LocalDateTime dateTime) {
+    public ResponseStructure(String status, int statusCode, String message, T data, LocalDateTime dateTime) {
         this.status = status;
         this.statusCode = statusCode;
         this.message = message;
@@ -17,7 +17,7 @@ public class ResponseAPI <T>{
         this.dateTime = dateTime;
     }
 
-    public ResponseAPI() {
+    public ResponseStructure() {
     }
 
     public String getStatus() {
