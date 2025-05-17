@@ -7,6 +7,7 @@ import com.moviebooking.www.entity.Show;
 
 public interface ShowService {
 	List<Show> findAllShow();
+	Show findById(long id);
 	List<Show> findByMovieId(long movieId);
 	List<Show> findByTheaterId(long theaterId);
 	Show addShow(ShowDTO showDTO);

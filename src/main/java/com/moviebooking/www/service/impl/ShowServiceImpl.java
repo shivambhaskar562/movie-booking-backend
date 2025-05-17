@@ -1,6 +1,5 @@
 package com.moviebooking.www.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +30,12 @@ public class ShowServiceImpl implements ShowService {
     @Override
     public List<Show> findAllShow() {
         return showRepository.findAll();
+    }
+
+    @Override
+    public Show findById(long id){
+        return showRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("No such show found for this ID " + id));
     }
 
     @Override

@@ -36,6 +36,20 @@ public class ShowController {
 		return new ResponseEntity<>(responseStructure, HttpStatus.OK);
 	}
 
+	@GetMapping("/{id}")
+	public ResponseEntity<ResponseStructure<Show>> findById(@PathVariable  long id) {
+		Show show = showService.findById(id);
+
+		ResponseStructure<Show> responseStructure = new ResponseStructure<>();
+
+		responseStructure.setStatus("Success");
+		responseStructure.setStatusCode(HttpStatus.OK.value());
+		responseStructure.setMessage("Shows found");
+		responseStructure.setDateTime(LocalDateTime.now());
+		responseStructure.setData(show);
+		return new ResponseEntity<>(responseStructure, HttpStatus.OK);
+	}
+
 	@GetMapping("/movie/{id}")
 	public ResponseEntity<ResponseStructure<List<Show>>> findByMovieId(@PathVariable  long id) {
 		List<Show> shows = showService.findByMovieId(id);

@@ -50,7 +50,6 @@ public class AuthServiceImpl implements AuthService {
         roles.add("USER");
         roles.add("ADMIN");
 
-
         Users users = new Users();
         users.setUsername(registerRequestDTO.getUsername());
         users.setEmail(registerRequestDTO.getEmail());
@@ -78,6 +77,4 @@ public class AuthServiceImpl implements AuthService {
 
         return loginResponseDTO;
     }
-
-
 }
