@@ -8,6 +8,7 @@ import com.moviebooking.www.entity.Booking;
 public interface BookingService {
 	
 	Booking createBooking(BookingDTO bookingDTO);
+	Booking findById(long id);
 	List<Booking> findUserBooking(long id);
 	List<Booking> findAllBookingByShow(long id);
 	List<Booking> findAllBookingByMovie(long id);

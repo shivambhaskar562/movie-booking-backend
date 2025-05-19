@@ -8,6 +8,7 @@ import com.moviebooking.www.entity.Theater;
 public interface TheaterService {
 	
 	Theater addTheater(TheaterDTO theaterDTO);
+	Theater findById(long id);
 	Theater updateTheater(long id, TheaterDTO theaterDTO);
 	void deleteTheater(long id);
 	void deleteAllTheater();

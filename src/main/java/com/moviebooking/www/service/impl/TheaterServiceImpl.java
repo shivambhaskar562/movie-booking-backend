@@ -78,4 +78,10 @@ public class TheaterServiceImpl implements TheaterService {
 		theaterRepository.deleteAll();
 	}
 
+	@Override
+	public Theater findById(long id) {
+		return theaterRepository.findById(id)
+				.orElseThrow(()-> new RuntimeException("no Such Theater found for this id "+id));
+	}
+
 }

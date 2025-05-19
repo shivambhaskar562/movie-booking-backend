@@ -15,7 +15,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/theater")
-@CrossOrigin(origins = "http://127.0.0.1:3000")
+@CrossOrigin(origins = { "http://localhost:3000",
+"http://127.0.0.1:3000" }, allowedHeaders = "*", allowCredentials = "true")
 public class TheaterController {
 
 	@Autowired
@@ -32,6 +33,21 @@ public class TheaterController {
 		response.setMessage("All Theaters Fetched");
 		response.setDateTime(LocalDateTime.now());
 		response.setData(theaters);
+
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	
+	@GetMapping("id/{id}")
+	public ResponseEntity<ResponseStructure<Theater>> findById(@PathVariable long id) {
+		Theater theater = theaterService.findById(id);
+
+		ResponseStructure<Theater> response = new ResponseStructure<>();
+
+		response.setStatus("Success");
+		response.setStatusCode(HttpStatus.OK.value());
+		response.setMessage("Theater Fetched");
+		response.setDateTime(LocalDateTime.now());
+		response.setData(theater);
 
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}

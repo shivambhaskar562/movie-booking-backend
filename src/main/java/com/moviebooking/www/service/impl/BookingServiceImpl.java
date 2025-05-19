@@ -159,4 +159,10 @@ public class BookingServiceImpl implements BookingService {
         return bookingRepository.findAll();
     }
 
+	@Override
+	public Booking findById(long id) {
+		return bookingRepository.findById(id)
+				.orElseThrow(()-> new RuntimeException("No Such Booking found for this ID: "+id));
+	}
+
 }

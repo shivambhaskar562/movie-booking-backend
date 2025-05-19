@@ -13,13 +13,15 @@ import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/user")
+@CrossOrigin(origins = { "http://localhost:3000",
+"http://127.0.0.1:3000" }, allowedHeaders = "*", allowCredentials = "true")
 public class UserController {
 
     @Autowired
     private UsersService userService;
 
-    @GetMapping("/profile")
-    public ResponseEntity<ResponseStructure<Users>> findUsersProfile(@RequestParam String username) {
+    @GetMapping("/profile/{username}")
+    public ResponseEntity<ResponseStructure<Users>> findUsersProfile(@PathVariable String username) {
         Users users = userService.UserProfile(username);
 
         ResponseStructure<Users> responseStructure = new ResponseStructure<>();

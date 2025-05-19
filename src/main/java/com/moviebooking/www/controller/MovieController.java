@@ -16,7 +16,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/movie")
-@CrossOrigin(origins = "http://127.0.0.1:3000")
+@CrossOrigin(origins = { "http://localhost:3000",
+"http://127.0.0.1:3000" }, allowedHeaders = "*", allowCredentials = "true")
 public class MovieController {
 
     @Autowired

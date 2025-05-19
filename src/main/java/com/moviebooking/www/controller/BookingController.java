@@ -14,7 +14,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/booking")
-@CrossOrigin(origins = "http://127.0.0.1:3000")
+@CrossOrigin(origins = { "http://localhost:3000",
+"http://127.0.0.1:3000" }, allowedHeaders = "*", allowCredentials = "true")
 public class BookingController {
 
     @Autowired
@@ -63,6 +64,21 @@ public class BookingController {
         responseStructure.setDateTime(LocalDateTime.now());
         responseStructure.setData(booking);
         return new ResponseEntity<>(responseStructure, HttpStatus.OK);
+    }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseStructure<Booking>> findById(@PathVariable long id) {
+        Booking booking = bookingService.findById(id);
+
+        ResponseStructure<Booking> responseStructure = new ResponseStructure<>();
+
+        responseStructure.setStatus("Success");
+        responseStructure.setStatusCode(HttpStatus.OK.value());
+        responseStructure.setMessage("User's bookings fetched successfully");
+        responseStructure.setDateTime(LocalDateTime.now());
+        responseStructure.setData(booking);
+        return new ResponseEntity<>(responseStructure, HttpStatus.OK);
+
     }
 
     @GetMapping("/user/{id}")

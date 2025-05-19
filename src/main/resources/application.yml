@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: MovieBookingApplication
+  profiles:
+    active: local  # Change to 'online' to use the online database
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/spring_booking
+    username: postgres
+    password: 123
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: online
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://ep-winter-mouse-a42ax2d8.us-east-1.aws.neon.tech/neondb?sslmode=require
+    username: neondb_owner
+    password: npg_nZMfgdsdfdsgdq6rtTy5E
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update

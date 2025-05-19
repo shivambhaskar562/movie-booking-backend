@@ -15,7 +15,7 @@ import java.util.Set;
 
 @Service
 public class AuthServiceImpl implements AuthService {
-
+	
     @Autowired
     private UsersRepository usersRepository;
 
@@ -30,6 +30,8 @@ public class AuthServiceImpl implements AuthService {
         roles.add("USER");
 
         Users users = new Users();
+        users.setName(registerRequestDTO.getName());
+        users.setMobile(registerRequestDTO.getMobile());
         users.setUsername(registerRequestDTO.getUsername());
         users.setEmail(registerRequestDTO.getEmail());
         users.setPassword(registerRequestDTO.getPassword());
@@ -51,6 +53,8 @@ public class AuthServiceImpl implements AuthService {
         roles.add("ADMIN");
 
         Users users = new Users();
+        users.setName(registerRequestDTO.getName());
+        users.setMobile(registerRequestDTO.getMobile());
         users.setUsername(registerRequestDTO.getUsername());
         users.setEmail(registerRequestDTO.getEmail());
         users.setPassword(registerRequestDTO.getPassword());
@@ -71,9 +75,12 @@ public class AuthServiceImpl implements AuthService {
         }
 
         LoginResponseDTO loginResponseDTO = new LoginResponseDTO();
-        loginResponseDTO.setId((users.getId()));
+        loginResponseDTO.setName((users.getName()));
+        loginResponseDTO.setMobile(users.getMobile());
+        loginResponseDTO.setEmail(users.getEmail());
         loginResponseDTO.setUsername(users.getUsername());
         loginResponseDTO.setRoles(users.getRoles());
+        loginResponseDTO.setId(users.getId());
 
         return loginResponseDTO;
     }
