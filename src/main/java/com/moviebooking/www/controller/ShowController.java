@@ -27,7 +27,7 @@ public class ShowController {
 
 		ResponseStructure<List<Show>> responseStructure = new ResponseStructure<>();
 
-		responseStructure.setStatus("Success");
+		responseStructure.setStatus("Success ");
 		responseStructure.setStatusCode(HttpStatus.OK.value());
 		responseStructure.setMessage("Founded List of Shows");
 		responseStructure.setDateTime(LocalDateTime.now());
